@@ -1,0 +1,50 @@
+---
+title: "Monte Carlo Simulation in R"
+author: "Y. Yu"
+output:
+  html_document:
+    df_print: paged
+---
+
+# Simple Monte Carlo 
+
+Based on the law of large numbers, 
+\begin{align*}
+\theta &= \int^{b}_{a}g(x)dx\\
+       &=(b-a)\frac{\sum^n_{i=1}g(x_i)}{n}
+\end{align*}
+
+
+For example, to estimate $\theta = \int^{1}_{0}e^{-x}dx$, 
+
+```{r}
+set.seed(123)
+n <- 100000
+x <- runif(n)
+theta <- mean(exp(-x))
+theta
+```
+
+The true value of $\theta$ is $\int^{1}_{0}e^{-x}dx$ is $1-e^{-1} = 0.6321206$
+
+To estimate $\theta = \int^{4}_{2}e^{-x}dx$, 
+
+```{r}
+set.seed(123)
+n <- 100000
+x <- runif(n,2,4)
+theta <- 2 * mean(exp(-x))
+theta
+```
+
+Since $u$ and $1-u$ are negatively correlated, generating random values in this way would lower the variance.
+
+```{r}
+n <- 100000
+x1 <- runif(n/2)
+x2 <- 1 - x1
+u <- c(x1, x2)
+theta <- mean(exp(-u))
+theta
+```
+
